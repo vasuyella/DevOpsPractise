@@ -1,0 +1,21 @@
+---
+ - hosts: "{{host}}"
+   remote_user: test
+   become: yes
+   vars:
+    pkg: nginx
+   vars_files:
+    - var_file.yml
+   vars_prompt:
+    - name: pkg2
+      prompt: enter package name
+      private: no
+   tasks:
+    - name: Install {{pkg}}
+      yum: name={{pkg}} state=installed
+    - name: Copy {{file}}
+      copy: src={{file}} dest=/usr/share/{{pkg}}/html
+    - name: Install {{pkg1}}
+      yum: name={{pkg1}} state=installed
+    - name: Install {{pkg2}}
+      yum: name={{pkg2}} state=installed
